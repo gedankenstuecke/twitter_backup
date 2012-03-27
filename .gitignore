@@ -14,3 +14,4 @@
 /log/*.log
 /tmp
 /twitter_credentials.json
+/public/system/avatars/*
