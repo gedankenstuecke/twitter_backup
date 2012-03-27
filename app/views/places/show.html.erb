@@ -9,33 +9,15 @@
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
 
-    var bermudaTriangle;
 
     var map = new google.maps.Map(document.getElementById("map_canvas"),
         myOptions);
 
-    var triangleCoords = [
-        new google.maps.LatLng(25.774252, -80.190262),
-        new google.maps.LatLng(18.466465, -66.118292),
-        new google.maps.LatLng(32.321384, -64.75737)
-    ];
-
-    bermudaTriangle = new google.maps.Polygon({
-      paths: triangleCoords,
-      strokeColor: "#FF0000",
-      strokeOpacity: 0.8,
-      strokeWeight: 3,
-      fillColor: "#FF0000",
-      fillOpacity: 0.35
-    });
-
-   bermudaTriangle.setMap(map);
   }
 </script>
 
- <body onload="initialize()">
- <div id="map_canvas"></div>
- </body>
+<div id="map_canvas"></div>
+
  <br/><br/>
  <div class="span11 offset1">
 <h1><%=@place.full_name%></h1>
@@ -87,3 +69,15 @@
       </tbody>
       </table>
         </div>
+
+        <script language="javascript" type = "text/javascript"> 
+        initialize(); 
+        
+        $(window).resize(function () {
+            var h = $(window).height(),
+                offsetTop = 600; // Calculate the top offset
+
+            $('#map_canvas').css('height', (h - offsetTop));
+        }).resize();
+        
+        </script>

@@ -1,0 +1,31 @@
+<div class="span11 offset 1">
+  <h1>Search Results</h2>
+</div>
+<br/><br/>
+<div class="row">
+<div class="span5 offset 1">
+<h2>Tweets</h2>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>User</th>
+      <th>Tweet</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%@tweets.results.each do |t|%>
+    <tr>
+      <td><%=image_tag t.user.avatar%></td>
+      <td><%=t.user.screen_name%></td>
+      <td><%=auto_link(link_twitter_user(t.text))%></td>
+      <td><%=t.tweeted_at%></td>
+    </tr>
+    <%end%>
+  </tbody>
+<table>
+</div>
+
+</div>

@@ -4,7 +4,7 @@ namespace :tweets do
     file_handle= File.read(::Rails.root.to_s+"/twitter_credentials.json")
     credentials = JSON.parse(file_handle)
     
-    @tweets =Twitter.user_timeline(credentials["user"],:count => 500,:include_rts => 1)
+    @tweets =Twitter.user_timeline(credentials["user"],:count => 200,:include_rts => 1)
     
     # iterate over all tweets grabbed in this run
     
@@ -20,7 +20,7 @@ namespace :tweets do
         @user_at_twitter = t.user
       end
         
-      if Tweet.find_by_id(@tweet_at_twitter.id) == nil # check if tweet already exists in database
+      if Tweet.find_by_twitter_id(@tweet_at_twitter.id) == nil # check if tweet already exists in database
         
         if @tweet_at_twitter.place != nil # check if location is attached to tweet
           if Place.find_by_twitter_id(@tweet_at_twitter.place.id) == nil # check if location already exists in database 

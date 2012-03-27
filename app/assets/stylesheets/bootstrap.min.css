@@ -4008,6 +4008,10 @@ html, body {
 
   #map_canvas {
     height: 250px;
-    width: 250px;
+    width: 750px;
   }
+}
+
+#map_canvas img {
+  max-width: none;
 }
