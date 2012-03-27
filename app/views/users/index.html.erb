@@ -1,0 +1,49 @@
+<div class="span11 offset 1">
+<h1> Interactions with other users</h1>
+</div>
+<br/><br/>
+<div class="row">
+<div class="span5 offset1">
+  <h2>Most replied to</h2>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>User</th>
+      <th># of Tweets</th>
+    </tr>
+  </thead>
+  <tbody>
+  <%@most_replied_array.first(30).each do |r|%>
+  <tr>
+    <td><%=image_tag r[0].avatar%></td>
+    <td><%=r[0].screen_name%></td>
+    <td><%=r[1].to_s%></td>
+  </tr>
+  <%end%>
+  </tbody>
+  </table>
+  </div>
+  
+  <div class="span5 offset1">
+    <h2>Most retweeted</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th></th>
+        <th>User</th>
+        <th># of Retweets</th>
+      </tr>
+    </thead>
+    <tbody>
+    <%@most_retweeted_array.first(30).each do |r|%>
+    <tr>
+      <td><%=image_tag r[0].avatar%></td>
+      <td><%=r[0].screen_name%></td>
+      <td><%=r[1].to_s%></td>
+    </tr>
+    <%end%>
+    </tbody>
+    </table>
+    </div>
+  </div>

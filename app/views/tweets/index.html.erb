@@ -1,0 +1,39 @@
+<div class="span11 offset 1">
+<h1>Tweets & Retweets</h1>
+</div>
+<table class="table table-striped">
+<thead>
+<tr>
+	<th></th>
+	<th>User</th>
+	<th>Tweet</th>
+	<th>Location</th>
+  <th><%= sortable "tweeted_at", "Tweeted at"%></th>
+</tr>
+</thead>
+<tbody>
+<%@tweets_paginate.each do |t|%>
+
+<tr>
+  <td><%=image_tag t.user.avatar,:style => "vertical-align:middle"%></td>
+  <td>
+  <%if t.user.screen_name != head_user%>
+  <b>RT:</b><%end%>
+  <%=t.user.screen_name%></td>
+  <td><%=auto_link(link_twitter_user(t.text))%></td>
+  <td>
+    <%if t.place != nil%>
+    <%=link_to t.place.full_name,:controller => "places",:action => "show", :id => t.place.id%>
+    <%else%>
+    -
+    <%end%>
+    </td>
+  <td><%= t.tweeted_at%></td>
+</tr>
+<%end%>
+</tbody>
+</table>  
+
+<div class="pagination">
+<%= will_paginate(@tweets_paginate) %>
+</div>

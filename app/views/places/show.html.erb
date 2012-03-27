@@ -1,0 +1,89 @@
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=<%=maps_api_key%>&sensor=false"></script>
+<script type="text/javascript">
+
+  function initialize() {
+    var myLatLng = new google.maps.LatLng(<%=@mean_lat%>, <%=@mean_long%>);
+    var myOptions = {
+      zoom: 11,
+      center: myLatLng,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+
+    var bermudaTriangle;
+
+    var map = new google.maps.Map(document.getElementById("map_canvas"),
+        myOptions);
+
+    var triangleCoords = [
+        new google.maps.LatLng(25.774252, -80.190262),
+        new google.maps.LatLng(18.466465, -66.118292),
+        new google.maps.LatLng(32.321384, -64.75737)
+    ];
+
+    bermudaTriangle = new google.maps.Polygon({
+      paths: triangleCoords,
+      strokeColor: "#FF0000",
+      strokeOpacity: 0.8,
+      strokeWeight: 3,
+      fillColor: "#FF0000",
+      fillOpacity: 0.35
+    });
+
+   bermudaTriangle.setMap(map);
+  }
+</script>
+
+ <body onload="initialize()">
+ <div id="map_canvas"></div>
+ </body>
+ <br/><br/>
+ <div class="span11 offset1">
+<h1><%=@place.full_name%></h1>
+</div>
+<br/><br/>
+<div class="row">
+<div class="span4 offset2">
+<table class="table table-striped">
+  <h3>Most tweets from this location</h3>
+  <thead>
+    <tr>
+      <th></th>
+      <th>User</th>
+      <th># of Tweets</th>
+    </tr>
+  </thead>
+  <tbody>
+  <%@user_array.each do |u|%>
+  <tr>
+    <td><%=image_tag u[0].avatar,:style => "vertical-align:middle"%></td>
+    <td><%=u[0].screen_name%></td>
+    <td><%=u[1]%></td>
+  </tr>
+  <%end%>
+  </tbody>
+  </table>
+    </div>
+    
+    <div class="span6 offset1">
+    <h3>Recent (re)tweets</h3>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th></th>
+          <th>User</th>
+          <th>Tweets</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+      <%@tweets.each do |t|%>
+      <tr>
+        <td><%=image_tag t.user.avatar,:style => "vertical-align:middle"%></td>
+        <td><%=t.user.screen_name%></td>
+        <td><%=auto_link(link_twitter_user(t.text))%></td>
+        <td><%=t.tweeted_at%></td>
+      </tr>
+      <%end%>
+      </tbody>
+      </table>
+        </div>

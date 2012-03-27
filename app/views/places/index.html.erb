@@ -1,0 +1,34 @@
+<div class="span11 offset 1">
+<h1>Locations</h1>
+</div>
+
+<div class="row">
+<div class="span6 offset1">
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Location</th>
+      <th># of Tweets</th>
+    </tr>
+  </thead>
+  <tbody>
+  <%@counted_places_array.each do |p|%>
+  <tr>
+    <td><%=link_to p[0].full_name,:controller => "places",:action => "show",:id => p[0].id%></td>
+    <td><%=p[1].to_s%></td>
+  </tr>
+  <%end%>
+  </tbody>
+  </table>
+    </div>
+
+    <div class="span8">
+    <div class="hero-unit">
+      <h1><%=link_to @counted_places_array[0][0].full_name,:controller => 'places',:action => "show",:id => @counted_places_array[0][0].id%></h1>
+      <p>This is the place where <%=head_user%>s has sent most of his geotagged tweets. In total <%=@counted_places_array[0][1]%> tweets have been sent from this location.</p>
+      <p>
+        <%=link_to "View tweets at this place",{:controller => 'places',:action =>"show", :id => @counted_places_array[0][0].id}, :class => "btn btn-primary btn-large" %>
+          </p>
+      </div>
+</div>
+</div>

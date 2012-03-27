@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TwitterBackup</title>
+  <%= stylesheet_link_tag 'application' %>
+  
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <div class="navbar">
+    <div class="navbar-inner">
+      <div class="container">
+  		<h3><div class="brand"><a href="http://localhost:3000">Backup of @<%=head_user%>'s tweets</a></div></h3>
+  		<ul class="nav">
+        <li><a href="localhost:3000">Interactions</a></li>
+        <li><%=link_to "Places",:controller => "places", :action => "index"%></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<%= yield %>
+
+</body>
+</html>
