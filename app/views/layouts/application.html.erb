@@ -11,12 +11,12 @@
   <div class="navbar">
     <div class="navbar-inner">
       <div class="container">
-  		<h3><div class="brand"><a href="http://localhost:3000">Backup of @<%=head_user%>'s tweets</a></div></h3>
+  		<h3><div class="brand"><%=link_to "Backup of @#{head_user}'s tweets",:controller => "tweets", :action => "index"%></a></div></h3>
   		<ul class="nav">
         <li><%=link_to "Interactions", :controller => "users", :action => "index"%></li>
         <li><%=link_to "Places",:controller => "places", :action => "index"%></li>
       </ul>
-      <%= form_tag "/search", :method => "get", :authenticity_token => true do %>
+      <%= form_tag "search", :method => "get", :authenticity_token => true do %>
 				<%= text_field_tag :search, nil, :placeholder => "Search here",:class =>"navbar-search pull-left" %>
 			<% end %>
     </div>
