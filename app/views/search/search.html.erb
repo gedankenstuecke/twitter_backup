@@ -1,11 +1,11 @@
-<div class="span11 offset 1">
+<div class="span11 offset1">
   <h1>Search Results</h2>
 </div>
 <br/><br/>
 <div class="row">
-<div class="span5 offset 1">
+<div class="span5 offset1">
 <h2>Tweets</h2>
-
+<%if @tweets.results.size != 0%>
 <table class="table table-striped">
   <thead>
     <tr>
@@ -25,7 +25,57 @@
     </tr>
     <%end%>
   </tbody>
-<table>
+</table>
+<%else%>
+No tweets found
+<%end%>
 </div>
 
+<div class="span4 offset1">
+  <h2>User</h2>
+  <%if @users.results.size != 0%>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th></th>
+        <th>User</th>
+        <th># of Tweets</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%@users.results.each do |u|%>
+      <tr>
+        <td><%=image_tag u.avatar%></td>
+        <td><%=link_to u.screen_name, "http://www.twitter.com/"+u.screen_name%></td>
+        <td><%=u.tweets.size%></td>
+      </tr>
+      <%end%>
+    </tbody>
+  </table>
+  <%else%>
+  No user found
+  <%end%>
+
+<h2>Places</h2>
+<%if @places.results.size != 0%>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Place</th>
+      <th># of Tweets</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%@places.results.each do |p|%>
+    <tr>
+      <td><%=p.full_name%></td>
+      <td><%=p.tweets.size%></td>
+    </tr>
+    <%end%>
+    </tbody>
+  </table>
+  <%else%>
+  No places found
+  <%end%>
+</div>
 </div>

@@ -17,7 +17,7 @@
   <%@most_replied_array.first(30).each do |r|%>
   <tr>
     <td><%=image_tag r[0].avatar%></td>
-    <td><%=r[0].screen_name%></td>
+    <td><%=link_to r[0].screen_name,"http://www.twitter.com/"+r[0].screen_name%></td>
     <td><%=r[1].to_s%></td>
   </tr>
   <%end%>
@@ -39,7 +39,7 @@
     <%@most_retweeted_array.first(30).each do |r|%>
     <tr>
       <td><%=image_tag r[0].avatar%></td>
-      <td><%=r[0].screen_name%></td>
+      <td><%=link_to r[0].screen_name,"http://www.twitter.com/"+r[0].screen_name%></td>
       <td><%=r[1].to_s%></td>
     </tr>
     <%end%>

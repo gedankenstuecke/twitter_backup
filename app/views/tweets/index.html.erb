@@ -18,8 +18,8 @@
   <td><%=image_tag t.user.avatar,:style => "vertical-align:middle"%></td>
   <td>
   <%if t.user.screen_name != head_user%>
-  <b>RT:</b><%end%>
-  <%=t.user.screen_name%></td>
+  <b>RT:</b>
+  <%=link_to t.user.screen_name,"http://twitter.com/"+t.user.screen_name%><%else%><%=t.user.screen_name%><%end%></td>
   <td><%=auto_link(link_twitter_user(t.text))%></td>
   <td>
     <%if t.place != nil%>

@@ -1,10 +1,13 @@
 TwitterBackup::Application.routes.draw do
   
+
+  
   match '/', :to => 'tweets#index'
   match '/places', :to => 'places#index'
   match '/places/:id', :to => 'places#show'
   match '/users/', :to => 'users#index'
   match '/search', :to => 'search#search'  
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
