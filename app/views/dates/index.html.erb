@@ -1,0 +1,122 @@
+<div class="span11 offset1">
+<h1>Tweets per Day/Month</h2>
+</div>
+<div class="row show-grid">
+<div class="span7 offset1">
+<h2>Tweets per Weekday</h2>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+  google.load("visualization", "1", {packages:["treemap"]});
+  google.setOnLoadCallback(drawChart);
+  function drawChart() {
+    // Create and populate the data table.
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Day');
+    data.addColumn('string','Parent');
+    data.addColumn('number', 'percentage of tweets (size)');
+    data.addColumn('number', 'average hour of tweets (color)');
+    data.addRows([
+      ["Whole Week",null,0,0],
+      <%@tweets_per_day_array.each_with_index do |d|%>
+      ["<%=d[1][:name]%>","Whole Week",<%=d[1][:number]%>,<%=d[1][:average_hour]%>],
+      <%end%>
+    ]);
+
+    // Create and draw the visualization.
+    var tree = new google.visualization.TreeMap(document.getElementById('days_chart_div'));
+    tree.draw(data, {
+      minColor: '#726E6D',
+      midColor: '#357EC7',
+      maxColor: '#7D1B7E',
+      headerHeight: 15,
+      fontColor: 'black',
+      showScale: true});
+    }
+</script>
+
+<div id="days_chart_div" style="width: 500px; height: 250px;"></div>
+<div class="row">
+<div class="span2 offset1">
+<em>n</em> = <%=@total_tweets%>
+</div>
+<div class="span2">
+<p style="color:#726E6D">■ = <%=@tweets_per_day_array[0][1][:average_hour]%>:00</p>
+</div>
+<div class="span2">
+<p style="color:#7D1B7E">■ = <%=@tweets_per_day_array[-1][1][:average_hour]%>:00</p>
+</div>
+</div>
+</div>
+<div class="span7">
+  <h2>Tweets per Month</h2>
+   <script type="text/javascript">
+     google.load("visualization", "1", {packages:["treemap"]});
+     google.setOnLoadCallback(drawChart);
+     function drawChart() {
+       // Create and populate the data table.
+       var data = new google.visualization.DataTable();
+       data.addColumn('string', 'Month');
+       data.addColumn('string','Parent');
+       data.addColumn('number', 'percentage of tweets (size)');
+       data.addColumn('number', 'average hour of tweets (color)');
+       data.addRows([
+         ["Whole Year",null,0,0],
+         <%@tweets_per_month_array.each_with_index do |d|%>
+         ["<%=d[1][:name]%>","Whole Year",<%=d[1][:number]%>,<%=d[1][:average_hour]%>],
+         <%end%>
+       ]);
+
+       // Create and draw the visualization.
+       var tree = new google.visualization.TreeMap(document.getElementById('month_chart_div'));
+       tree.draw(data, {
+         minColor: '#726E6D',
+         midColor: '#357EC7',
+         maxColor: '#7D1B7E',
+         headerHeight: 15,
+         fontColor: 'black',
+         showScale: true});
+       }
+   </script>
+
+  <div id="month_chart_div" style="width: 500px; height: 250px;"></div>
+  <div class="row">
+  <div class="span2 offset1">
+  <em>n</em> = <%=@total_tweets%>
+  </div>
+  <div class="span2">
+  <p style="color:#726E6D">■ = <%=@tweets_per_month_array[0][1][:average_hour]%>:00</p>
+  </div>
+  <div class="span2">
+  <p style="color:#7D1B7E">■ = <%=@tweets_per_month_array[-1][1][:average_hour]%>:00</p>
+  </div>
+  </div>
+</div>
+</div>
+<%=@tweets_per_hour.to_s%>
+<script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Hour');
+        data.addColumn('number',"Own Tweets");
+        data.addColumn('number',"Including Retweets");
+        data.addRows([<%@own_tweets_per_hour.each do |k,v|%>
+          ['<%=k.to_s%>', <%=v%>,<%=@all_tweets_per_hour[k]%>],
+          <%end%>
+        ]);
+
+        var options = {
+          curveType: 'function',
+          hAxis: {title:'Hour (UTC)'},
+          vAxis: {title:'Number of Tweets',minValue:"0"}
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('chart_hour_div'));
+        chart.draw(data, options);
+      }
+    </script>
+    <div class="span7 offset1">
+    <h2>Tweets per Hour</h2>
+    <div id="chart_hour_div" style="width: 800px; height: 250px;"></div>
+    </div>

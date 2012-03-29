@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120327155600) do
+ActiveRecord::Schema.define(:version => 20120328205015) do
 
   create_table "places", :force => true do |t|
     t.string   "twitter_id"
@@ -36,6 +36,11 @@ ActiveRecord::Schema.define(:version => 20120327155600) do
     t.integer  "place_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "year"
+    t.integer  "month"
+    t.integer  "day"
+    t.integer  "weekday"
+    t.integer  "hour"
   end
 
   create_table "users", :force => true do |t|

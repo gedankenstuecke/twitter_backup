@@ -65,6 +65,12 @@ namespace :tweets do
         @tweet.in_reply_to_user_id = @tweet_at_twitter.in_reply_to_user_id
         @tweet.in_reply_to_status_id = @tweet_at_twitter.in_reply_to_status_id
         
+        @tweet.weekday = @tweet_at_twitter.created_at.wday
+        @tweet.day = @tweet_at_twitter.created_at.day
+        @tweet.month = @tweet_at_twitter.created_at.month
+        @tweet.year = @tweet_at_twitter.created_at.year
+        @tweet.hour = @tweet_at_twitter.created_at.hour
+        
         if @tweet_at_twitter.in_reply_to_user_id != nil
           if User.find_by_twitter_id(@tweet_at_twitter.in_reply_to_user_id) == nil
             @reply_user = Twitter.user(@tweet_at_twitter.in_reply_to_user_id)

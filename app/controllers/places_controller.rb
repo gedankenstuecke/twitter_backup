@@ -6,10 +6,25 @@ helper_method :sort_column, :sort_direction
     
     @places = Place.find(:all)
     @counted_places = Hash.new(0)
+    @start_lat = 0
+    @start_long = 0
     @places.each do |p|
-      @counted_places[p] = p.tweets.size
+      @counted_places[p] = Hash.new(0)
+      @counted_places[p][:tweets] = p.tweets.size
+      p.coordinates[0].each do |c|
+        @counted_places[p][:lat] += c[1]
+        @counted_places[p][:long] += c[0]
+      end
+      @counted_places[p][:lat] = @counted_places[p][:lat] / p.coordinates[0].size
+      @counted_places[p][:long] = @counted_places[p][:long] / p.coordinates[0].size
+      
+      @start_long += p.coordinates[0][0][0]
+      @start_lat += p.coordinates[0][0][1]
     end
-    @counted_places_array = @counted_places.sort_by{ |k,v| v }.reverse
+    @start_lat = @start_lat / @counted_places.size
+    @start_long = @start_long / @counted_places.size
+    
+    @counted_places_array = @counted_places.sort_by{ |k,v| v[:tweets] }.reverse
 
     respond_to do |format|
       format.html

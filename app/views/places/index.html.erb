@@ -1,3 +1,51 @@
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=<%=maps_api_key%>&sensor=false"></script>
+<script type="text/javascript" src="/heatmaps-gmaps.js"></script>
+<script type="text/javascript" src="/heatmaps.js"></script>
+<script type="text/javascript">
+
+var heatmap;
+var map;
+
+window.onload = function initialize() {
+    var myLatLng = new google.maps.LatLng(<%=@start_lat%>, <%=@start_long%>);
+    var myOptions = {
+      zoom: 5,
+      center: myLatLng,
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      disableDefaultUI: false,
+      scrollwheel: true,
+      draggable: true,
+      navigationControl: true,
+      mapTypeControl: false,
+      scaleControl: true,
+      disableDoubleClickZoom: false
+    };
+
+
+    map = new google.maps.Map(document.getElementById("map_canvas"),
+        myOptions);
+        
+        heatmap = new HeatmapOverlay(map, {"radius":15, "visible":true, "opacity":60});
+        document.getElementById("tog").onclick = function(){
+      		heatmap.toggle();
+      	};
+    var testData={
+      max: <%=@counted_places_array[0][1][:tweets]/2%>, 
+      data: [<%@counted_places_array.each do |p|%>{lat:<%=p[1][:lat]%>,lng:<%=p[1][:long]%>,count:<%=p[1][:tweets]%>},<%end%>{lat:49.64407800000001,lng:8.465204499999999,count:1}]
+    };
+    
+  	google.maps.event.addListenerOnce(map, "idle", function(){
+  		heatmap.setDataSet(testData);
+		});
+  }
+</script>
+<div id="map_canvas"></div>
+<br/>
+<div class="hidden">
+<div id="tog" class="btn">Toggle HeatmapOverlay</div>
+</div>
+<br/>
+
 <div class="span11 offset 1">
 <h1>Locations</h1>
 </div>
@@ -15,7 +63,7 @@
   <%@counted_places_array.each do |p|%>
   <tr>
     <td><%=link_to p[0].full_name,:controller => "places",:action => "show",:id => p[0].id%></td>
-    <td><%=p[1].to_s%></td>
+    <td><%=p[1][:tweets].to_s%></td>
   </tr>
   <%end%>
   </tbody>
@@ -25,7 +73,7 @@
     <div class="span8">
     <div class="hero-unit">
       <h1><%=link_to @counted_places_array[0][0].full_name,:controller => 'places',:action => "show",:id => @counted_places_array[0][0].id%></h1>
-      <p>This is the place where <%=head_user%>s has sent most of his geotagged tweets. In total <%=@counted_places_array[0][1]%> tweets have been sent from this location.</p>
+      <p>This is the place where <%=head_user%>s has sent most of his geotagged tweets. In total <%=@counted_places_array[0][1][:tweets]%> tweets have been sent from this location.</p>
       <p>
         <%=link_to "View tweets at this place",{:controller => 'places',:action =>"show", :id => @counted_places_array[0][0].id}, :class => "btn btn-primary btn-large" %>
           </p>

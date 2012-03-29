@@ -1,23 +1,47 @@
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=<%=maps_api_key%>&sensor=false"></script>
+<script type="text/javascript" src="/heatmaps-gmaps.js"></script>
+<script type="text/javascript" src="/heatmaps.js"></script>
 <script type="text/javascript">
 
-  function initialize() {
+var heatmap;
+var map;
+
+window.onload = function initialize() {
     var myLatLng = new google.maps.LatLng(<%=@mean_lat%>, <%=@mean_long%>);
     var myOptions = {
       zoom: 11,
       center: myLatLng,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      disableDefaultUI: false,
+      scrollwheel: true,
+      draggable: true,
+      navigationControl: true,
+      mapTypeControl: false,
+      scaleControl: true,
+      disableDoubleClickZoom: false
     };
 
 
-    var map = new google.maps.Map(document.getElementById("map_canvas"),
+    map = new google.maps.Map(document.getElementById("map_canvas"),
         myOptions);
-
+        
+    heatmap = new HeatmapOverlay(map, {"radius":15, "visible":true, "opacity":60});
+    document.getElementById("tog").onclick = function(){
+  		heatmap.toggle();
+  	};
+    var testData={
+      max: <%=@place.tweets.size%>,
+      data: [{lat:<%=@mean_lat%>,lng:<%=@mean_long%>,count:<%=@place.tweets.size%>}]
+    };
+    
+  	google.maps.event.addListenerOnce(map, "idle", function(){
+  		heatmap.setDataSet(testData);
+		});
   }
 </script>
 
-<div id="map_canvas"></div>
-
+<div id="map_canvas"></div><br/>
+<div id="tog" class="btn">Toggle HeatmapOverlay</div>
  <br/><br/>
  <div class="span11 offset1">
 <h1><%=@place.full_name%></h1>
