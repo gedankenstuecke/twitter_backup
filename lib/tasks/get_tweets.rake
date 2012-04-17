@@ -12,7 +12,7 @@ namespace :tweets do
       puts "---"
       puts "started with tweet "+t.id.to_s
       
-      if t.retweeted == true    # check if tweet is a retweet, if yes: grab original tweet
+      if t.retweeted_status != nil    # check if tweet is a retweet, if yes: grab original tweet
         @tweet_at_twitter = t.retweeted_status
         @user_at_twitter = t.retweeted_status.user
       else
